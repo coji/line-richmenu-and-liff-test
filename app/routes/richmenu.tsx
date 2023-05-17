@@ -7,15 +7,16 @@ import {
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { createAndUploadImageLineRichMenu, listLineRichMenu } from '~/services/line-richmenu.server'
-import { getUserId } from '~/services/session.server'
+import { requireUserId } from '~/services/session.server'
 
 export const loader = async ({ request }: LoaderArgs) => {
+  await requireUserId(request)
   const richMenus = await listLineRichMenu()
   return json({ richMenus })
 }
 
 export const action = async ({ request }: ActionArgs) => {
-  const userId = getUserId(request)
+  await requireUserId(request)
 
   const uploadHandler = unstable_composeUploadHandlers(
     // our custom upload handler
@@ -35,6 +36,7 @@ export const action = async ({ request }: ActionArgs) => {
   try {
     const formData = await unstable_parseMultipartFormData(request, uploadHandler)
     const imageUrl = formData.get('avatar')
+    console.log(imageUrl)
   } catch (e) {
     console.log(e)
   }
