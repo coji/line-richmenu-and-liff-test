@@ -1,12 +1,8 @@
-import type { ActionArgs, LoaderArgs } from '@remix-run/node'
-import {
-  json,
-  unstable_composeUploadHandlers,
-  unstable_createMemoryUploadHandler,
-  unstable_parseMultipartFormData,
-} from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
-import { createAndUploadImageLineRichMenu, listLineRichMenu } from '~/services/line-richmenu.server'
+import { Box, Button, Heading, Stack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import type { LoaderArgs } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Link, Outlet, Link as RemixLink, useLoaderData } from '@remix-run/react'
+import { listLineRichMenu } from '~/services/line-richmenu.server'
 import { requireUserId } from '~/services/session.server'
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -15,54 +11,52 @@ export const loader = async ({ request }: LoaderArgs) => {
   return json({ richMenus })
 }
 
-export const action = async ({ request }: ActionArgs) => {
-  await requireUserId(request)
-
-  const uploadHandler = unstable_composeUploadHandlers(
-    // our custom upload handler
-    async ({ name, contentType, data, filename }) => {
-      console.log({ name, contentType, filename, data })
-      if (name !== 'avatar') {
-        return undefined
-      }
-      console.log('uploading to line')
-      const ret = await createAndUploadImageLineRichMenu(data, contentType)
-      console.log('uploaded to line', ret)
-    },
-    // fallback to memory for everything else
-    unstable_createMemoryUploadHandler(),
-  )
-
-  try {
-    const formData = await unstable_parseMultipartFormData(request, uploadHandler)
-    const imageUrl = formData.get('avatar')
-    console.log(imageUrl)
-  } catch (e) {
-    console.log(e)
-  }
-  return json({})
-}
-
 export default function RichMenuPage() {
   const { richMenus } = useLoaderData<typeof loader>()
 
   return (
-    <div>
-      <h1>rich menu upload</h1>
-      <form method="post" encType="multipart/form-data">
-        <input type="file" name="avatar" />
-        <button type="submit">submit</button>
-      </form>
-
-      <div>
-        <h2>rich menus</h2>
-        {richMenus.map((richMenu) => (
-          <div key={richMenu.richMenuId}>
-            <div>{richMenu.richMenuId}</div>
-            <div>{richMenu.name}</div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <Box>
+      <Stack>
+        <Heading>Rich menus</Heading>
+        <Box>
+          <Button as={RemixLink} to="new" colorScheme="blue" variant="outline">
+            Add
+          </Button>
+        </Box>
+      </Stack>
+      <TableContainer>
+        <Table size="sm">
+          <Thead>
+            <Tr>
+              <Th>Selected</Th>
+              <Th>Name</Th>
+              <Th>Chat Bar text</Th>
+              <Th>Width</Th>
+              <Th>Height</Th>
+              <Th>Areas</Th>
+              <Th>Action</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {richMenus.map((richMenu) => (
+              <Tr key={richMenu.richMenuId}>
+                <Td>{richMenu.selected && 'SELECTED'}</Td>
+                <Td>{richMenu.name}</Td>
+                <Td>{richMenu.chatBarText}</Td>
+                <Td>{richMenu.size.width}</Td>
+                <Td>{richMenu.size.height}</Td>
+                <Td>{richMenu.areas.length}</Td>
+                <Td>
+                  <Button as={Link} size="xs" colorScheme="blue" variant="outline" to={`${richMenu.richMenuId}`}>
+                    Detail
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Outlet />
+    </Box>
   )
 }

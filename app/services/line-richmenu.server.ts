@@ -67,3 +67,12 @@ export const listLineRichMenu = async () => {
   })
   return await client.getRichMenuList()
 }
+
+export const getLineRichMenu = async (richMenuId: string) => {
+  invariant(LINE_ACCESS_TOKEN)
+  const client = new Client({
+    channelAccessToken: LINE_ACCESS_TOKEN,
+    channelSecret: process.env.LINE_CHANNEL_SECRET,
+  })
+  return await client.getRichMenu(richMenuId)
+}
