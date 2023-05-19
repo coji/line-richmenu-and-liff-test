@@ -1,4 +1,4 @@
-import { Box, Center, Heading } from '@chakra-ui/react'
+import { Box, Button, Center, Heading, Stack } from '@chakra-ui/react'
 import { useLiff } from '~/hooks/liff'
 
 export default function PurchasePage() {
@@ -6,13 +6,15 @@ export default function PurchasePage() {
 
   return (
     <Center h="100dvh">
-      <Box textAlign="center">
+      <Stack textAlign="center">
         <Heading>Purchase</Heading>
-        <Box>
-          <Box>LINE Version: {JSON.stringify(liff?.getLineVersion() ?? 'undefined')}</Box>
-          <Box>name: {profile?.name}</Box>
-        </Box>
-      </Box>
+
+        <Box>名前: {profile?.name}</Box>
+
+        <Button onClick={() => liff?.closeWindow()} w="full">
+          閉じる
+        </Button>
+      </Stack>
     </Center>
   )
 }
