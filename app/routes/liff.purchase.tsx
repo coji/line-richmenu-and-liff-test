@@ -2,7 +2,7 @@ import { Box, Center, Heading } from '@chakra-ui/react'
 import { useLiff } from '~/hooks/liff'
 
 export default function PurchasePage() {
-  const { liff, lineUserId } = useLiff()
+  const { liff, profile } = useLiff()
 
   return (
     <Center h="100dvh">
@@ -10,7 +10,7 @@ export default function PurchasePage() {
         <Heading>Purchase</Heading>
         <Box>
           <Box>LINE Version: {JSON.stringify(liff?.getLineVersion() ?? 'undefined')}</Box>
-          <Box>LineUserId: {lineUserId}</Box>
+          <Box>name: {profile?.name}</Box>
         </Box>
       </Box>
     </Center>
