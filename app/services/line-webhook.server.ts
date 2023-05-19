@@ -38,19 +38,23 @@ const handleLineWebhookEvent = async (client: InstanceType<typeof Client>, event
 }
 
 export const handleLineWebhook = async ({ destination, events }: WebhookRequestBody) => {
-  invariant(process.env.LINE_ACCESS_TOKEN)
-  const client = new Client({
-    channelAccessToken: process.env.LINE_ACCESS_TOKEN,
-    channelSecret: process.env.LINE_CHANNEL_SECRET,
-  })
+  try {
+    invariant(process.env.LINE_ACCESS_TOKEN)
+    const client = new Client({
+      channelAccessToken: process.env.LINE_ACCESS_TOKEN,
+      channelSecret: process.env.LINE_CHANNEL_SECRET,
+    })
 
-  console.time('handleLineWebhook')
-  console.dir(events)
+    console.time('handleLineWebhook')
+    console.dir(events)
 
-  for (const event of events) {
-    await handleLineWebhookEvent(client, event)
+    for (const event of events) {
+      await handleLineWebhookEvent(client, event)
+    }
+
+    console.timeEnd('handleLineWebhook')
+    return
+  } catch (e) {
+    console.error(e)
   }
-
-  console.timeEnd('handleLineWebhook')
-  return
 }

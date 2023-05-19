@@ -2,6 +2,7 @@ import type { LineUser } from '@prisma/client'
 import { prisma } from '~/db.server'
 
 export const followLineUser = async (lineUserId: LineUser['lineUserId']) => {
+  console.log({ lineUserId })
   return await prisma.lineUser.upsert({
     where: { lineUserId },
     create: { lineUserId, isFollowed: true, status: null, name: null },
@@ -10,6 +11,7 @@ export const followLineUser = async (lineUserId: LineUser['lineUserId']) => {
 }
 
 export const unfollowLineUser = async (lineUserId: LineUser['lineUserId']) => {
+  console.log({ lineUserId })
   return await prisma.lineUser.update({
     where: { lineUserId },
     data: { isFollowed: false, status: null, name: null },

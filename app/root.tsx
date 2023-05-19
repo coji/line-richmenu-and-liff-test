@@ -4,7 +4,6 @@ import { json } from '@remix-run/node'
 import type { V2_MetaFunction } from '@remix-run/react'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
 import React from 'react'
-import { Layout } from './components/Layout'
 import { theme } from './theme'
 
 import { getUser } from '~/services/session.server'
@@ -43,9 +42,7 @@ const Document = ({ children, title }: DocumentProps) => {
 export default function App() {
   return (
     <Document>
-      <Layout>
-        <Outlet />
-      </Layout>
+      <Outlet />
     </Document>
   )
 }
@@ -53,14 +50,12 @@ export default function App() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document title="Error!">
-      <Layout>
-        <Box>
-          <Heading as="h1">There was an error</Heading>
-          <Text>{String(error)}</Text>
-          <Divider />
-          <Text>Hey, developer, you should replace this with what you want your users to see.</Text>
-        </Box>
-      </Layout>
+      <Box>
+        <Heading as="h1">There was an error</Heading>
+        <Text>{String(error)}</Text>
+        <Divider />
+        <Text>Hey, developer, you should replace this with what you want your users to see.</Text>
+      </Box>
     </Document>
   )
 }
