@@ -3,11 +3,9 @@ import type { LoaderArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import type { V2_MetaFunction } from '@remix-run/react'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
-import React from 'react'
 import { createHead } from 'remix-island'
-import { theme } from './theme'
-
 import { getUser } from '~/services/session.server'
+import { theme } from './theme'
 
 export const meta: V2_MetaFunction = () => [{ title: 'LINE Richmenu Test' }]
 
