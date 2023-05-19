@@ -10,6 +10,8 @@ import { RemixServer } from '@remix-run/react'
 import isbot from 'isbot'
 import { PassThrough } from 'node:stream'
 import { renderToPipeableStream } from 'react-dom/server'
+import { renderHeadToString } from 'remix-island'
+import { Head } from './root'
 
 const ABORT_DELAY = 5_000
 
@@ -35,6 +37,7 @@ function handleBotRequest(
       <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />,
       {
         onAllReady() {
+          const head = renderHeadToString({ request, remixContext, Head })
           const body = new PassThrough()
 
           responseHeaders.set('Content-Type', 'text/html')
@@ -46,7 +49,11 @@ function handleBotRequest(
             }),
           )
 
+          body.write(
+            `<!DOCTYPE html><html><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />${head}</head><body><div id="root">`,
+          )
           pipe(body)
+          body.write(`</div></body></html>`)
         },
         onShellError(error: unknown) {
           reject(error)
@@ -73,6 +80,7 @@ function handleBrowserRequest(
       <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />,
       {
         onShellReady() {
+          const head = renderHeadToString({ request, remixContext, Head })
           const body = new PassThrough()
 
           responseHeaders.set('Content-Type', 'text/html')
@@ -84,7 +92,11 @@ function handleBrowserRequest(
             }),
           )
 
+          body.write(
+            `<!DOCTYPE html><html><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />${head}</head><body><div id="root">`,
+          )
           pipe(body)
+          body.write(`</div></body></html>`)
         },
         onShellError(error: unknown) {
           reject(error)

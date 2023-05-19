@@ -73,6 +73,9 @@ dependencies:
   react-icons:
     specifier: ^4.8.0
     version: 4.8.0(react@18.2.0)
+  remix-island:
+    specifier: ^0.1.2
+    version: 0.1.2(@remix-run/react@1.16.1)(@remix-run/server-runtime@1.16.1)(react-dom@18.2.0)(react@18.2.0)
   tiny-invariant:
     specifier: ^1.3.1
     version: 1.3.1
@@ -10554,6 +10557,20 @@ packages:
     dependencies:
       minimatch: 5.1.6
     dev: true
+
+  /remix-island@0.1.2(@remix-run/react@1.16.1)(@remix-run/server-runtime@1.16.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1vXF56y7ZKb8caUduCKdkbxObAxZnTO+arQ94QlwKK6a7wVozGCfiOOk3lr919rm7cy54eeqOVI0hud3cfHlLg==}
+    peerDependencies:
+      '@remix-run/react': '>= 1'
+      '@remix-run/server-runtime': '>= 1'
+      react: '>= 16.8'
+      react-dom: '>= 16.8'
+    dependencies:
+      '@remix-run/react': 1.16.1(react-dom@18.2.0)(react@18.2.0)
+      '@remix-run/server-runtime': 1.16.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /request-progress@3.0.0:
     resolution: {integrity: sha512-MnWzEHHaxHO2iWiQuHrUPBi/1WeBf5PkxQqNyNvLl9VAYSdXkP8tQ3pBSeCPD+yw0v0Aq1zosWLz0BdeXpWwZg==}
