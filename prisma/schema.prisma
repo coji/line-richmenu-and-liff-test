@@ -24,3 +24,27 @@ model Password {
   userId String @unique
 }
 
+model LineUser {
+  id         String @id @default(cuid())
+  lineUserId String @unique
+
+  isFollowed Boolean @default(true)
+
+  name   String?
+  status String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lineUserMessages LineUserMessage[]
+}
+
+model LineUserMessage {
+  id         String   @id @default(cuid())
+  lineUser   LineUser @relation(fields: [lineUserId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  lineUserId String
+  message    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

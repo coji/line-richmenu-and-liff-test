@@ -1,5 +1,9 @@
 import {
   Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -8,6 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spacer,
+  Textarea,
 } from '@chakra-ui/react'
 import type { ActionArgs, LoaderArgs } from '@remix-run/node'
 import {
@@ -17,7 +22,7 @@ import {
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from '@remix-run/node'
-import { useNavigate } from '@remix-run/react'
+import { Form, useNavigate } from '@remix-run/react'
 import { createAndUploadImageLineRichMenu } from '~/services/line-richmenu.server'
 import { requireUserId } from '~/services/session.server'
 
@@ -69,9 +74,12 @@ export default function RichMenuNewPage() {
         <ModalHeader>リッチメニューの作成</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <form method="post" id="richmenu-create" encType="multipart/form-data">
-            <input type="file" name="avatar" />
-          </form>
+          <Form method="post" id="richmenu-create" encType="multipart/form-data">
+            <Input type="file" name="avatar" id="avatar" />
+            <Input type="text" name="name" id="name" />
+            <Input type="checkbox" name="selected" id="selected" />
+            <Textarea name="body" id="body" />
+          </Form>
         </ModalBody>
         <ModalFooter>
           <Button>キャンセル</Button>
