@@ -11,11 +11,8 @@
     "start": "remix-serve build",
     "start:mocks": "binode --require ./mocks -- @remix-run/serve:remix-serve build",
     "test": "vitest",
-    "test:e2e:dev": "start-server-and-test dev http://localhost:3000 \"npx cypress open\"",
-    "pretest:e2e:run": "npm run build",
-    "test:e2e:run": "cross-env PORT=8811 start-server-and-test start:mocks http://localhost:8811 \"npx cypress run\"",
-    "typecheck": "tsc && tsc -p cypress",
-    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
+    "typecheck": "tsc",
+    "validate": "run-p \"test --run\" lint typecheck"
   },
   "eslintIgnore": [
     "/node_modules",
@@ -54,7 +51,6 @@
     "@faker-js/faker": "^8.0.1",
     "@remix-run/dev": "1.16.1",
     "@remix-run/eslint-config": "1.16.1",
-    "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -75,7 +71,6 @@
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-chakra-ui": "^0.8.0",
-    "eslint-plugin-cypress": "^2.13.3",
     "happy-dom": "^9.19.2",
     "msw": "^1.2.1",
     "npm-run-all": "^4.1.5",

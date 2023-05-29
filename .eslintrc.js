@@ -36,5 +36,5 @@ module.exports = {
       version: 28,
     },
   },
-  ignorePatterns: ['.cache', 'build', 'node_modules', 'public/build'],
+  ignorePatterns: ['.cache', 'build', 'node_modules', 'public/build', 'mocks'],
 }
